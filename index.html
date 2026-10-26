@@ -31,6 +31,7 @@
 </head>
 <body>
 <header class="toolbar">
+  <button type="button" class="menu-toggle" id="menu-toggle" aria-controls="layers" aria-expanded="false" aria-label="Open menu"><svg viewBox="0 0 20 20" aria-hidden="true"><path class="i-open" d="M3 5.5h14M3 10h14M3 14.5h14"/><path class="i-close" d="M5 5l10 10M15 5L5 15"/></svg></button>
   <a class="mark" href="#hero" aria-label="Merve Devrim, back to top">MD</a>
   <div class="file-tab"><span class="saved" aria-hidden="true"></span><span>merve-devrim<span class="long">.html</span></span></div>
   <div class="spacer"></div>
@@ -43,7 +44,7 @@
 </header>
 
 <div class="app">
-  <aside class="panel layers" aria-label="Sections">
+  <aside class="panel layers" id="layers" aria-label="Sections">
     <p class="panel-title">Layers</p>
     <nav class="layer-list">
       <a href="#hero"><svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="1.5"/></svg>Intro</a>
@@ -57,6 +58,7 @@
     <hr>
     <p class="panel-note">Switch any frame to <b>Code</b> to see the HTML behind it. It is this page's own source, read live from the page.</p>
   </aside>
+  <div class="scrim" id="menu-scrim" hidden></div>
 
   <main class="canvas" id="main">
     <div class="ruler" aria-hidden="true"></div>
@@ -67,7 +69,7 @@
       <div class="board">
         <div class="visual">
           <p class="kicker">Webmaster · Website Operations</p>
-          <div class="hero-name"><h1>Merve Devrim</h1><span class="spec" aria-hidden="true"></span></div>
+          <div class="hero-name"><h1>Merve Devrim</h1></div>
           <p class="statement">I manage and maintain websites on WordPress, custom CMS platforms and static HTML/CSS, handling content, page edits, visuals, newsletters and client requests.</p>
           <div class="hero-meta">
             <div>
@@ -238,25 +240,9 @@
     </section>
   </main>
 
-  <aside class="panel inspector" aria-label="Styles used on this page">
+  <aside class="panel inspector" aria-label="Selected section">
     <p class="panel-title">Selection</p>
     <div class="selection" id="selection"><b id="sel-name">intro</b><br><span id="sel-dims">—</span></div>
-    <hr>
-    <p class="panel-title">Colors</p>
-    <div class="swatches">
-      <div class="swatch"><i style="background:#111418"></i><span>Ink</span><code>#111418</code></div>
-      <div class="swatch"><i style="background:#5B6472"></i><span>Muted</span><code>#5B6472</code></div>
-      <div class="swatch"><i style="background:#E8EBEF"></i><span>Canvas</span><code>#E8EBEF</code></div>
-      <div class="swatch"><i style="background:#2F6BFF"></i><span>Selection</span><code>#2F6BFF</code></div>
-      <div class="swatch"><i style="background:#16A34A"></i><span>Available</span><code>#16A34A</code></div>
-      <div class="swatch"><i style="background:#0F1217"></i><span>Code</span><code>#0F1217</code></div>
-    </div>
-    <hr>
-    <p class="panel-title">Type</p>
-    <div class="type-spec">
-      <div><span class="aa">Aa</span><span>Geist<br>400 · 600 · 750</span></div>
-      <div><span class="aa m">Aa</span><span>Geist Mono<br>labels, dates, code</span></div>
-    </div>
   </aside>
 </div>
 

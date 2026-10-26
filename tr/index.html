@@ -31,6 +31,7 @@
 </head>
 <body>
 <header class="toolbar">
+  <button type="button" class="menu-toggle" id="menu-toggle" aria-controls="layers" aria-expanded="false" aria-label="Menüyü aç"><svg viewBox="0 0 20 20" aria-hidden="true"><path class="i-open" d="M3 5.5h14M3 10h14M3 14.5h14"/><path class="i-close" d="M5 5l10 10M15 5L5 15"/></svg></button>
   <a class="mark" href="#giris" aria-label="Merve Devrim, sayfanın başına dön">MD</a>
   <div class="file-tab"><span class="saved" aria-hidden="true"></span><span>merve-devrim<span class="long">.html</span></span></div>
   <div class="spacer"></div>
@@ -43,7 +44,7 @@
 </header>
 
 <div class="app">
-  <aside class="panel layers" aria-label="Bölümler">
+  <aside class="panel layers" id="layers" aria-label="Bölümler">
     <p class="panel-title">Katmanlar</p>
     <nav class="layer-list">
       <a href="#giris"><svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="1.5"/></svg>Giriş</a>
@@ -57,6 +58,7 @@
     <hr>
     <p class="panel-note">Herhangi bir bölümü <b>Kod</b> görünümüne alarak arkasındaki HTML'i görebilirsiniz. Gösterilen kod bu sayfanın kendi kaynağıdır; doğrudan sayfadan okunur.</p>
   </aside>
+  <div class="scrim" id="menu-scrim" hidden></div>
 
   <main class="canvas" id="main">
     <div class="ruler" aria-hidden="true"></div>
@@ -67,7 +69,7 @@
       <div class="board">
         <div class="visual">
           <p class="kicker">Webmaster · Web Sitesi Yönetimi</p>
-          <div class="hero-name"><h1>Merve Devrim</h1><span class="spec" aria-hidden="true"></span></div>
+          <div class="hero-name"><h1>Merve Devrim</h1></div>
           <p class="statement">WordPress, özel CMS platformları ve statik HTML/CSS ile hazırlanmış web sitelerini yönetiyor ve güncel tutuyorum. İçerik, sayfa düzenlemeleri, görseller, e-bültenler ve müşteri talepleri bu işin parçası.</p>
           <div class="hero-meta">
             <div>
@@ -238,25 +240,9 @@
     </section>
   </main>
 
-  <aside class="panel inspector" aria-label="Bu sayfada kullanılan stiller">
+  <aside class="panel inspector" aria-label="Seçili bölüm">
     <p class="panel-title">Seçim</p>
     <div class="selection" id="selection"><b id="sel-name">giris</b><br><span id="sel-dims">—</span></div>
-    <hr>
-    <p class="panel-title">Renkler</p>
-    <div class="swatches">
-      <div class="swatch"><i style="background:#111418"></i><span>Metin</span><code>#111418</code></div>
-      <div class="swatch"><i style="background:#5B6472"></i><span>İkincil metin</span><code>#5B6472</code></div>
-      <div class="swatch"><i style="background:#E8EBEF"></i><span>Zemin</span><code>#E8EBEF</code></div>
-      <div class="swatch"><i style="background:#2F6BFF"></i><span>Seçim</span><code>#2F6BFF</code></div>
-      <div class="swatch"><i style="background:#16A34A"></i><span>Müsait</span><code>#16A34A</code></div>
-      <div class="swatch"><i style="background:#0F1217"></i><span>Kod</span><code>#0F1217</code></div>
-    </div>
-    <hr>
-    <p class="panel-title">Yazı tipleri</p>
-    <div class="type-spec">
-      <div><span class="aa">Aa</span><span>Geist<br>400 · 600 · 750</span></div>
-      <div><span class="aa m">Aa</span><span>Geist Mono<br>etiketler, tarihler, kod</span></div>
-    </div>
   </aside>
 </div>
 

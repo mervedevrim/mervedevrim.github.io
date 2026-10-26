@@ -1,15 +1,16 @@
 /* Merve Devrim — portfolio behaviour
    1. Visual / Code view: the code is generated from this page's own HTML.
-   2. Live measurements: frame sizes, the name's type spec, ruler numbers.
+   2. Live measurements: frame sizes and ruler numbers.
    3. Layers panel + Selection panel follow the section you clicked or scrolled to.
-   4. Copy e-mail button. */
+   4. Copy e-mail button.
+   5. Mobile menu (the Layers panel opens as a drawer). */
 (function () {
   "use strict";
 
   var lang = (document.documentElement.lang || "en").slice(0, 2);
   var T = {
-    en: { source: "HTML source of the {name} section", frames: "frames", copy: "Copy", copied: "Copied" },
-    tr: { source: "{name} bölümünün HTML kaynağı", frames: "çerçeve", copy: "Kopyala", copied: "Kopyalandı" }
+    en: { source: "HTML source of the {name} section", frames: "frames", copy: "Copy", copied: "Copied", openMenu: "Open menu", closeMenu: "Close menu" },
+    tr: { source: "{name} bölümünün HTML kaynağı", frames: "çerçeve", copy: "Kopyala", copied: "Kopyalandı", openMenu: "Menüyü aç", closeMenu: "Menüyü kapat" }
   }[lang === "tr" ? "tr" : "en"];
 
   var frames = [].slice.call(document.querySelectorAll(".frame"));
@@ -19,7 +20,7 @@
   var VOID = { br: 1, img: 1, meta: 1, link: 1, input: 1, hr: 1 };
   function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
   function clean(t) { return t.replace(/\s+/g, " ").trim(); }
-  function skip(n) { return n.nodeType === 1 && (n.classList.contains("handles") || n.classList.contains("spec")); }
+  function skip(n) { return n.nodeType === 1 && n.classList.contains("handles"); }
   function render(node, depth, out) {
     var pad = new Array(depth + 1).join("  ");
     if (node.nodeType === 3) { var t = clean(node.textContent); if (t) out.push(pad + '<span class="t-text">' + esc(t) + "</span>"); return; }
@@ -66,8 +67,6 @@
       measure();
     });
   });
-  var heroName = document.querySelector(".hero-name");
-  if (heroName) addHandles(heroName);
 
   var btnVisual = document.getElementById("mode-visual"), btnCode = document.getElementById("mode-code");
   function setAll(v) {
@@ -80,7 +79,7 @@
   btnCode.addEventListener("click", function () { setAll("code"); });
 
   /* ---------- 2. Measurements ---------- */
-  var spec = document.querySelector(".spec"), h1 = document.querySelector(".hero-name h1"), ruler = document.querySelector(".ruler");
+  var ruler = document.querySelector(".ruler");
   var selName = document.getElementById("sel-name"), selDims = document.getElementById("sel-dims");
   function dims(frame) { var r = frame.querySelector(".board").getBoundingClientRect(); return Math.round(r.width) + " × " + Math.round(r.height); }
   var shown = null;            // frame shown in the Selection panel
@@ -91,10 +90,6 @@
   }
   function measure() {
     frames.forEach(function (f) { f.querySelector(".dims").textContent = dims(f); });
-    if (spec && h1) {
-      var cs = getComputedStyle(h1);
-      spec.textContent = "h1 · Geist " + cs.fontWeight + " · " + Math.round(parseFloat(cs.fontSize)) + "px";
-    }
     if (ruler) {
       var w = ruler.getBoundingClientRect().width, html = "";
       for (var x = 100; x < w - 40; x += 100) html += '<span style="left:' + (x + 3) + 'px">' + x + "</span>";
@@ -142,6 +137,7 @@
     a.addEventListener("click", function () {
       var target = document.getElementById(a.getAttribute("href").slice(1));
       if (!target) return;
+      setMenu(false);
       lockUntil = Date.now() + 1200;           // smooth scroll in progress
       setActive(target);
     });
@@ -160,6 +156,32 @@
   measure();
   var count = document.getElementById("frame-count");
   if (count) count.textContent = frames.length + " " + T.frames;
+
+  /* ---------- 5. Mobile menu ---------- */
+  var toggle = document.getElementById("menu-toggle"), drawer = document.getElementById("layers"), scrim = document.getElementById("menu-scrim");
+  var small = window.matchMedia("(max-width: 900px)");
+  function setMenu(open) {
+    if (!toggle || !drawer) return;
+    open = !!open && small.matches;
+    drawer.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    toggle.setAttribute("aria-label", open ? T.closeMenu : T.openMenu);
+    if (scrim) scrim.hidden = !open;
+    document.documentElement.classList.toggle("menu-open", open);
+    if (open) {
+      var current = drawer.querySelector("a.is-active") || drawer.querySelector("a");
+      if (current) current.focus({ preventScroll: true });
+    }
+  }
+  if (toggle && drawer) {
+    toggle.addEventListener("click", function () { setMenu(toggle.getAttribute("aria-expanded") !== "true"); });
+    if (scrim) scrim.addEventListener("click", function () { setMenu(false); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") { setMenu(false); toggle.focus(); }
+    });
+    var onBreakpoint = function () { if (!small.matches) setMenu(false); };
+    if (small.addEventListener) small.addEventListener("change", onBreakpoint); else small.addListener(onBreakpoint);
+  }
 
   /* ---------- 4. Copy e-mail ---------- */
   var copyBtn = document.getElementById("copy-email"), email = document.getElementById("email");
